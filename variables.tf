@@ -1,3 +1,9 @@
+variable "enable_logs" {
+  description = "Enable Azure Monitor diagnostics."
+  type        = bool
+  default     = true
+}
+
 variable "tags" {
   description = "List of tags."
   type        = map(string)
@@ -27,13 +33,19 @@ variable "log_analytics_workspace_id" {
   default     = ""
 }
 
-variable "sa_tier" {
-  description = "Defines the Tier to use for this storage account."
+variable "account_kind" {
+  description = "The Storage Account kind."
   type        = string
   default     = "Standard"
 }
 
-variable "sa_replication_type" {
+variable "account_tier" {
+  description = "The Storage Account Tier."
+  type        = string
+  default     = "Standard"
+}
+
+variable "account_replication_type" {
   description = "Defines the type of replication to use for this storage account."
   type        = string
   default     = "LRS"
