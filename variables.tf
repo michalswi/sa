@@ -4,6 +4,12 @@ variable "enable_logs" {
   default     = true
 }
 
+variable "enable_sp" {
+  description = "Enable access using Service Principal."
+  type        = bool
+  default     = false
+}
+
 variable "tags" {
   description = "List of tags."
   type        = map(string)
@@ -13,7 +19,6 @@ variable "tags" {
 variable "name" {
   description = "Resource name prefix."
   type        = string
-  default     = "oneadkv"
 }
 
 variable "location" {
@@ -24,7 +29,6 @@ variable "location" {
 variable "rg_name" {
   description = "The name of an existing resource group to create the resource in."
   type        = string
-  default     = ""
 }
 
 variable "log_analytics_workspace_id" {
@@ -49,4 +53,10 @@ variable "account_replication_type" {
   description = "Defines the type of replication to use for this storage account."
   type        = string
   default     = "LRS"
+}
+
+variable "service_principal_id" {
+  description = "Service Principal ID allowed to access the Storage Account."
+  type        = string
+  default     = ""
 }

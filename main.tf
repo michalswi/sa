@@ -1,5 +1,6 @@
 locals {
   enable_logs = var.enable_logs
+  enable_sp   = var.enable_sp
 
   tags                       = var.tags
   name                       = var.name
@@ -10,10 +11,13 @@ locals {
   account_kind             = var.account_kind
   account_tier             = var.account_tier
   account_replication_type = var.account_replication_type
-}
 
-resource "random_id" "log_analytics_workspace_name_suffix" {
-  byte_length = 3
+  service_principal_id = var.service_principal_id
+  sa_roles = [
+    "Storage Blob Data Contributor",
+    "Storage Blob Data Reader",
+    "Storage Account Contributor",
+  ]
 }
 
 resource "azurerm_monitor_diagnostic_setting" "this" {
@@ -42,7 +46,7 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
 }
 
 resource "azurerm_storage_account" "this" {
-  name                = "${local.name}${random_id.log_analytics_workspace_name_suffix.hex}"
+  name                = local.name
   resource_group_name = local.rg_name
   location            = local.location
 
@@ -58,9 +62,21 @@ resource "azurerm_storage_account" "this" {
   #   ip_rules                   = ""
   # }
 
+  # todo - disable account keys
+  # shared_access_key_enabled = false
+
   tags = local.tags
 }
 
+# todo
+resource "azurerm_role_assignment" "this" {
+  for_each             = local.sa_roles
+  principal_id         = local.service_principal_id
+  role_definition_name = each.key
+  scope                = azurerm_storage_account.this.id
+}
+
+# todo
 # resource "azurerm_management_lock" "this" {
 #   name       = "sa-lock"
 #   scope      = azurerm_storage_account.this.id
