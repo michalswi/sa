@@ -13,11 +13,7 @@ locals {
   account_replication_type = var.account_replication_type
 
   service_principal_id = var.service_principal_id
-  sa_roles = [
-    "Storage Blob Data Contributor",
-    "Storage Blob Data Reader",
-    "Storage Account Contributor",
-  ]
+  sa_roles             = var.sa_roles
 }
 
 resource "azurerm_monitor_diagnostic_setting" "this" {

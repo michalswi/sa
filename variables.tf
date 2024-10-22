@@ -60,3 +60,13 @@ variable "service_principal_id" {
   type        = string
   default     = ""
 }
+
+variable "sa_roles" {
+  description = "Storage Account roles to be assigned to the Service Principal."
+  type        = list(string)
+  default = [
+    "Storage Blob Data Contributor",
+    "Storage Blob Data Reader",
+    "Storage Account Contributor",
+  ]
+}
