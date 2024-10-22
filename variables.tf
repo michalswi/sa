@@ -40,7 +40,7 @@ variable "log_analytics_workspace_id" {
 variable "account_kind" {
   description = "The Storage Account kind."
   type        = string
-  default     = "Standard"
+  default     = "StorageV2"
 }
 
 variable "account_tier" {

@@ -45,6 +45,15 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
   }
 }
 
+# todo
+resource "azurerm_role_assignment" "this" {
+  for_each = local.enable_sp == true ? { for role in local.sa_roles : role => role } : {}
+
+  principal_id         = local.service_principal_id
+  role_definition_name = each.value
+  scope                = azurerm_storage_account.this.id
+}
+
 resource "azurerm_storage_account" "this" {
   name                = local.name
   resource_group_name = local.rg_name
@@ -66,14 +75,6 @@ resource "azurerm_storage_account" "this" {
   # shared_access_key_enabled = false
 
   tags = local.tags
-}
-
-# todo
-resource "azurerm_role_assignment" "this" {
-  for_each             = local.sa_roles
-  principal_id         = local.service_principal_id
-  role_definition_name = each.key
-  scope                = azurerm_storage_account.this.id
 }
 
 # todo
