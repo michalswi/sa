@@ -56,7 +56,7 @@ variable "account_replication_type" {
 }
 
 variable "service_principal_id" {
-  description = "Service Principal ID allowed to access the Storage Account."
+  description = "Service Principal ID allowed to access the storage account."
   type        = string
   default     = ""
 }
@@ -69,4 +69,10 @@ variable "sa_roles" {
     "Storage Blob Data Reader",
     "Storage Account Contributor",
   ]
+}
+
+variable "enable_shared_access_key" {
+  description = "Enable or disable shared access keys for the storage account."
+  type        = bool
+  default     = false
 }

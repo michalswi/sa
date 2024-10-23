@@ -1,6 +1,7 @@
 locals {
-  enable_logs = var.enable_logs
-  enable_sp   = var.enable_sp
+  enable_logs              = var.enable_logs
+  enable_sp                = var.enable_sp
+  enable_shared_access_key = var.enable_shared_access_key
 
   tags                       = var.tags
   name                       = var.name
@@ -41,7 +42,6 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
   }
 }
 
-# todo
 resource "azurerm_role_assignment" "this" {
   for_each = local.enable_sp == true ? { for role in local.sa_roles : role => role } : {}
 
@@ -67,8 +67,7 @@ resource "azurerm_storage_account" "this" {
   #   ip_rules                   = ""
   # }
 
-  # todo - disable account keys
-  # shared_access_key_enabled = false
+  shared_access_key_enabled = local.enable_shared_access_key
 
   tags = local.tags
 }
