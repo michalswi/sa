@@ -74,5 +74,5 @@ variable "sa_roles" {
 variable "enable_shared_access_key" {
   description = "Enable or disable shared access keys for the storage account."
   type        = bool
-  default     = false
+  default     = true
 }
